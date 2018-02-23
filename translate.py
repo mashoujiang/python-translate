@@ -131,7 +131,6 @@ class Iciba(object):
 
 
 path = os.path.dirname(os.path.realpath(__file__))
-db = dbm.open(path + '/data/vocabulary', 'c')
 DEFAULT_SERVICE = 'bing'
 
 
@@ -147,7 +146,7 @@ class Client(object):
         if webonly:
             self.db = {}
         else:
-            self.db = db
+            self.db = dbm.open(path + '/data/vocabulary', 'c')
 
     def translate(self):
         trans = self.db.get(self.word)
@@ -193,14 +192,14 @@ class Client(object):
 
     def updateDB(self):
         if self.trans:
-            db[self.word] = self.trans.encode('utf-8')
-        db.close()
+            self.db[self.word] = self.trans.encode('utf-8')
+        self.db.close()
         return True
 
 
 def parseArgs():
     parser = argparse.ArgumentParser()
-    parser.add_argument('word', help="word or 'some phrase'")
+    #parser.add_argument('word', help="word or 'some phrase'")
     parser.add_argument('-n', '--nostorage', dest='nostorage',
                         action='store_true', help='turn off data storage')
     parser.add_argument('-p', '--pronounce', dest='pronounce', choices=[
