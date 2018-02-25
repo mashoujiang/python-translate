@@ -2,12 +2,11 @@
 # Author: Ma, Shoujiang
 # Data: 2/20/2018
 # Describe: Build a dictionary based on my own needs.
-
 import glob
 import os.path
-import re
-
 import pandas as pd
+import re
+import sys
 
 import translate_py3 as tl
 
@@ -32,7 +31,7 @@ class Dictionary(object):
             self.dic.to_csv(self.dic_name, encoding="utf-8", index=False)
 
     def read_text(self, file_name):
-        with open(file_name, 'r', encoding='utf-8') as file:
+        with open(file_name, 'r', encoding='utf-8', errors="ignore") as file:
             self.extract_words(file)
 
     def extract_words(self, file):
